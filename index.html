@@ -4,37 +4,101 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Xservis — доступ есть</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#07070a; --card:#0f0f14; --border:#ffffff10; --accent:#c4b5fd; --muted:#a1a1aa; --ok:#4ade80; --bad:#f87171; }
+  :root{
+    --bg-0:#07040f; --bg-1:#150b2c; --bg-2:#26103d;
+    --card:#17102c; --card-border:rgba(255,255,255,0.09); --card-border-hover:rgba(255,70,130,0.5);
+    --ink:#f4eefb; --ink-dim:#b6acc9; --ink-faint:#7c7392;
+    --pink:#ff3f92; --violet:#9a4bff; --red:#ff3b57; --ok:#4ade80; --bad:#f87171;
+  }
   *{box-sizing:border-box;}
-  html,body{margin:0;background:var(--bg);color:#ececef;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,system-ui,sans-serif;}
-  body{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 16px 40px;}
+  html,body{margin:0;background:var(--bg-0);color:var(--ink);font-family:"Manrope",-apple-system,"Segoe UI",sans-serif;}
+  body{
+    min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 16px 40px;
+    background:
+      radial-gradient(ellipse 70% 45% at 20% 5%, rgba(255,63,146,0.16), transparent 60%),
+      radial-gradient(ellipse 60% 45% at 85% 95%, rgba(120,60,255,0.16), transparent 60%),
+      var(--bg-0);
+  }
   .wrap{width:100%;max-width:420px;text-align:center;}
-  .logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:28px;}
-  .logo .mark{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#8b5cf6,#c084fc);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:18px;}
-  .logo b{font-size:16px;letter-spacing:.02em;}
-  .logo span{display:block;font-size:11px;color:var(--muted);text-align:left;}
-  h1{font-size:24px;line-height:1.3;margin:0 0 10px;}
-  p.lead{color:var(--muted);font-size:14px;line-height:1.55;margin:0 0 30px;}
-  .btn{display:block;width:100%;text-align:center;padding:18px;border-radius:16px;border:none;font-weight:700;font-size:17px;cursor:pointer;text-decoration:none;color:#fff;background:linear-gradient(135deg,#8b5cf6,#c084fc);box-shadow:0 8px 30px -8px rgba(139,92,246,.5);}
-  .btn:disabled{opacity:.6;cursor:default;box-shadow:none;}
-  .btn.secondary{background:#18181c;border:1px solid var(--border);color:#ececef;box-shadow:none;}
-  .spinner{display:inline-block;width:16px;height:16px;border-radius:50%;border:2.5px solid #ffffff40;border-top-color:#fff;animation:spin .8s linear infinite;vertical-align:-3px;margin-right:8px;}
+
+  .logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:26px;}
+  .logo .mark{
+    width:38px;height:38px;border-radius:11px;
+    background:linear-gradient(150deg,var(--red),#c4123a);
+    box-shadow:0 6px 18px -4px rgba(255,50,80,0.55);
+    display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:16px;
+    font-family:"Unbounded",sans-serif;
+  }
+  .logo b{font-family:"Unbounded",sans-serif;font-size:15px;letter-spacing:.01em;}
+  .logo span{display:block;font-size:10.5px;color:var(--ink-faint);text-align:left;text-transform:uppercase;letter-spacing:.06em;font-weight:600;}
+
+  h1{
+    font-family:"Unbounded",sans-serif;font-size:clamp(24px,7vw,29px);line-height:1.1;font-weight:800;
+    margin:0 0 12px;text-wrap:balance;letter-spacing:-0.01em;
+  }
+  h1 .accent{
+    display:block;background:linear-gradient(90deg,var(--pink) 10%,var(--violet) 90%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 22px rgba(255,63,146,0.3));
+  }
+  p.lead{color:var(--ink-dim);font-size:13.5px;line-height:1.55;margin:0 0 26px;font-weight:500;}
+
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:8px;width:100%;text-align:center;
+    padding:16px;border-radius:16px;border:none;font-family:"Unbounded",sans-serif;font-weight:700;font-size:15px;
+    cursor:pointer;text-decoration:none;color:#fff;
+    background:linear-gradient(95deg,var(--pink),var(--violet) 80%);
+    box-shadow:0 14px 30px -10px rgba(255,63,146,0.55);
+    transition:transform .22s cubic-bezier(.2,.9,.3,1), box-shadow .22s ease, filter .22s ease;
+  }
+  .btn:hover{ transform:translateY(-2px); box-shadow:0 18px 40px -8px rgba(255,63,146,0.75); filter:saturate(1.1); }
+  .btn:disabled{opacity:.65;cursor:default;box-shadow:none;transform:none;}
+  .btn.secondary{background:var(--card);border:1px solid var(--card-border);color:var(--ink);box-shadow:none;}
+  .btn.secondary:hover{ border-color:var(--card-border-hover); box-shadow:0 10px 24px -10px rgba(255,63,146,0.35); }
+
+  .spinner{display:inline-block;width:15px;height:15px;border-radius:50%;border:2.5px solid #ffffff40;border-top-color:#fff;animation:spin .8s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
-  #resultBox{margin:22px 0;padding:16px;border-radius:14px;background:var(--card);border:1px solid var(--border);text-align:left;font-size:13px;line-height:1.6;display:none;}
-  #resultBox b{color:var(--accent);}
+
+  #resultBox{
+    margin:20px 0;padding:16px;border-radius:14px;background:var(--card);border:1px solid var(--card-border);
+    text-align:left;font-size:13px;line-height:1.6;display:none;
+  }
+  #resultBox b{color:var(--pink);}
   #resultBox .ok{color:var(--ok);font-weight:700;}
-  details{margin-top:26px;text-align:left;}
-  summary{cursor:pointer;color:var(--muted);font-size:12px;text-align:center;list-style:none;}
+
+  /* стат-пилюли — та же логика, что у карточки-референса LEADS (Ставки/выплата/поддержка),
+     но цифры настоящие: живые SNI сейчас / доступность сети, не выдуманные проценты */
+  .stat-row{display:flex;gap:8px;margin:18px 0 4px;flex-wrap:wrap;}
+  .stat{
+    display:flex;align-items:center;gap:6px;padding:7px 11px 7px 8px;border-radius:999px;
+    background:rgba(255,255,255,0.045);border:1px solid var(--card-border);
+    font-size:11px;font-weight:700;color:var(--ink-dim);
+  }
+  .stat .ic{
+    width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(150deg,var(--pink),var(--violet));flex-shrink:0;
+  }
+  .stat .ic svg{width:10px;height:10px;}
+
+  details{margin-top:22px;text-align:left;}
+  summary{cursor:pointer;color:var(--ink-faint);font-size:12px;text-align:center;list-style:none;font-weight:600;}
   summary::-webkit-details-marker{display:none;}
-  summary:hover{color:var(--accent);}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:12px;}
-  .card h2{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);margin:0 0 10px;font-weight:600;}
-  .row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;}
+  summary:hover{color:var(--pink);}
+  .card{
+    background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:14px;margin-top:12px;
+    transition:border-color .2s ease;
+  }
+  .card:hover{border-color:var(--card-border-hover);}
+  .card h2{font-family:"Unbounded",sans-serif;font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-faint);margin:0 0 10px;font-weight:600;}
+  .row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--card-border);font-size:13px;}
   .row:last-child{border-bottom:none;}
   .row .v{font-weight:700;font-variant-numeric:tabular-nums;}
-  .valok{color:var(--ok);} .valbad{color:var(--bad);} .muted{color:var(--muted);}
-  .note{font-size:10px;color:var(--muted);margin-top:8px;line-height:1.5;}
+  .valok{color:var(--ok);} .valbad{color:var(--bad);} .muted{color:var(--ink-faint);}
+  .note{font-size:10px;color:var(--ink-faint);margin-top:8px;line-height:1.5;}
   footer{margin-top:22px;font-size:10px;color:#54545c;line-height:1.6;}
 </style>
 </head>
@@ -45,14 +109,20 @@
     <div><b>XSERVIS</b><span>VLESS Reality tunnel</span></div>
   </div>
 
-  <h1>Один клик — рабочий VPN</h1>
+  <h1>Один клик —<span class="accent">рабочий VPN</span></h1>
   <p class="lead">Проверим вашу сеть прямо сейчас и подберём то, что точно работает именно у вас. Эта страница не привязана к основному домену — если xservis.app заблокируют, она продолжит работать.</p>
 
   <button class="btn" id="connectBtn">🔌 Подключиться</button>
 
   <div id="resultBox"></div>
 
-  <a class="btn" id="tgBtn" href="https://t.me/xfreedommBot" style="display:none;margin-top:12px;">Продолжить в Telegram →</a>
+  <a class="btn secondary" id="tgBtn" href="https://t.me/xfreedommBot" style="display:none;margin-top:12px;">Продолжить в Telegram →</a>
+
+  <div class="stat-row" id="statRow">
+    <div class="stat"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 6v6l4 2" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="2.4"/></svg></span><span id="statLive">проверяем…</span></div>
+    <div class="stat"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12L11 5L20 12L11 19L4 12Z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg></span><span id="statPool">SNI: …</span></div>
+    <div class="stat"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21c-4-2.5-7-6-7-10a7 7 0 0114 0c0 4-3 7.5-7 10z" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="11" r="1.6" fill="#fff"/></span>Поддержка 24/7</div>
+  </div>
 
   <details id="techDetails">
     <summary>Технические детали ▾</summary>
@@ -185,6 +255,8 @@
     }).join("");
     const ok = results.filter(r => r.ok);
     const winner = ok.length ? ok.reduce((a, b) => (a.ms < b.ms ? a : b)) : null;
+    const statLive = document.getElementById("statLive");
+    if (statLive) statLive.textContent = ok.length ? ok.length + "/" + results.length + " узлов живы" : "узлы не отвечают";
     return { results, winner };
   })();
 
@@ -216,14 +288,17 @@
   const rknPromise = (async () => {
     const d = await api("rkn/status");
     state.rkn = d;
+    const statPool = document.getElementById("statPool");
     if (!d) {
       document.getElementById("rknNote").textContent = "Backend недоступен — резервные данные покажем при первом успешном запросе.";
+      if (statPool) statPool.textContent = "SNI: недоступно";
       return;
     }
     document.getElementById("rknAlive").textContent = d.alive;
     document.getElementById("rknTotal").textContent = d.pool_total;
     document.getElementById("rknNodes").textContent = d.nodes;
     document.getElementById("rknNote").textContent = d.note || "";
+    if (statPool) statPool.textContent = "SNI: " + d.alive + "/" + d.pool_total + " живы";
   })();
 
   const recommendPromise = (async () => {
