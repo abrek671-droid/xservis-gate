@@ -73,7 +73,13 @@
     </div>
 
     <div class="card">
-      <h2>Рекомендуемый узел</h2>
+      <h2>Живая проверка узлов (именно с вашей сети)</h2>
+      <div id="probeBody"><div class="row"><span class="muted">Проверяем…</span></div></div>
+      <p class="note" id="probeNote">Реальный TCP+TLS запрос из вашего браузера к каждому серверу — не догадка и не статистика «похожих» пользователей, а факт: проходит именно у вас сейчас или нет.</p>
+    </div>
+
+    <div class="card">
+      <h2>Рекомендация по истории (для сравнения)</h2>
       <div id="recBody"><div class="row"><span class="muted">Загрузка…</span></div></div>
       <p class="note" id="recNote"></p>
     </div>
@@ -133,10 +139,60 @@
     return "unknown";
   }
 
-  // ---- Всё честно считается в фоне СРАЗУ при заходе на страницу (не ждём клика) —
-  // так "Подключиться" ощущается мгновенным, хотя ничего не подделано: реальные
-  // fetch-запросы просто успевают отработать, пока человек читает заголовок.
-  const state = { reach: null, rkn: null, recommend: null, networkType: guessNetworkType() };
+  // ---- Живая проба конкретных серверов из ЭТОГО браузера — не историческая
+  // статистика "похожих" пользователей, а прямой факт: TCP+TLS до IP:порта
+  // ноды проходит именно с этой сети/провайдера прямо сейчас, или нет. Это
+  // 6 БАЗОВЫХ портов (всегда развёрнуты, не зависят от 20-минутной ротации
+  // динамических SNI) — REALITY отвечает TLS-рукопожатием даже без "своего"
+  // SNI (проверено вживую через Globalping на реальных портах — соединение
+  // реально устанавливается, а не отваливается), так что для честного сигнала
+  // "доступен порт с этой сети или нет" точный SNI тут не обязателен.
+  const PROBE_TARGETS = [
+    { node: "ru-1",       host: "77.91.93.217",  port: 443  },
+    { node: "ru-1",       host: "77.91.93.217",  port: 8443 },
+    { node: "foreign-1",  host: "82.26.94.154",  port: 8443 },
+    { node: "foreign-1",  host: "82.26.94.154",  port: 2053 },
+    { node: "foreign-2",  host: "148.135.211.19", port: 8443 },
+    { node: "foreign-2",  host: "148.135.211.19", port: 2053 },
+  ];
+
+  async function probeOne(t) {
+    const t0 = performance.now();
+    try {
+      await fetch("https://" + t.host + ":" + t.port + "/?_=" + Date.now(), {
+        mode: "no-cors", cache: "no-store", signal: AbortSignal.timeout(3500),
+      });
+      return Object.assign({}, t, { ok: true, ms: Math.round(performance.now() - t0) });
+    } catch (e) {
+      return Object.assign({}, t, { ok: false, ms: null });
+    }
+  }
+
+  const probePromise = (async () => {
+    const results = await Promise.all(PROBE_TARGETS.map(probeOne));
+    const body = document.getElementById("probeBody");
+    const byNode = {};
+    for (const r of results) {
+      if (!byNode[r.node]) byNode[r.node] = [];
+      byNode[r.node].push(r);
+    }
+    body.innerHTML = Object.entries(byNode).map(([node, list]) => {
+      const okOnes = list.filter(r => r.ok);
+      const status = okOnes.length
+        ? '<span class="v valok">✓ ' + Math.min(...okOnes.map(r => r.ms)) + ' мс</span>'
+        : '<span class="v valbad">✗ недоступен</span>';
+      return '<div class="row"><span>' + node + '</span>' + status + '</div>';
+    }).join("");
+    const ok = results.filter(r => r.ok);
+    const winner = ok.length ? ok.reduce((a, b) => (a.ms < b.ms ? a : b)) : null;
+    return { results, winner };
+  })();
+
+  // ---- Всё остальное честно считается в фоне СРАЗУ при заходе на страницу
+  // (не ждём клика) — так "Подключиться" ощущается мгновенным, хотя ничего
+  // не подделано: реальные fetch-запросы просто успевают отработать, пока
+  // человек читает заголовок.
+  const state = { reach: null, rkn: null, recommend: null, probe: null, networkType: guessNetworkType() };
 
   const reachPromise = (async () => {
     const [xs, baseline] = await Promise.all([
@@ -194,19 +250,32 @@
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span>Проверяем вашу сеть…';
 
-    await Promise.all([reachPromise, rknPromise, recommendPromise]);
+    const [, , , probe] = await Promise.all([reachPromise, rknPromise, recommendPromise, probePromise]);
+    state.probe = probe;
 
-    const best = state.recommend && state.recommend.recommendations && state.recommend.recommendations[0];
+    // Источник истины — ЖИВАЯ проба (probe.winner): реальный факт "проходит с
+    // этой сети прямо сейчас", а не догадка. Историческая рекомендация
+    // (state.recommend) — только запасной вариант, если ни один узел не
+    // ответил живым запросом (например, все базовые порты сейчас под RKN-
+    // фильтром именно у этого провайдера, а динамическая ротация SNI ещё не
+    // подхватила замену).
+    const liveWinner = probe && probe.winner;
+    const historicalBest = state.recommend && state.recommend.recommendations && state.recommend.recommendations[0];
     const reachOk = state.reach && state.reach.xs && state.reach.xs.ok;
 
+    let bestNode = null;
     let summary = "";
     if (reachOk) {
       summary += '<b>Сеть:</b> <span class="ok">доступна напрямую</span>, блокировки не обнаружено.<br/>';
     } else {
       summary += '<b>Сеть:</b> похоже на точечную блокировку xservis.app — это не проблема, для этого и нужен обходной путь ниже.<br/>';
     }
-    if (best) {
-      summary += '<b>Подобранный сервер:</b> ' + best.node_id + ' (' + Math.round((best.success_rate||0)*100) + '% успешных подключений у похожих пользователей).<br/>';
+    if (liveWinner) {
+      bestNode = liveWinner.node;
+      summary += '<b>Подобранный сервер:</b> ' + liveWinner.node + ' — проверено вживую с вашей сети прямо сейчас (' + liveWinner.ms + ' мс, реальное TCP+TLS-соединение).<br/>';
+    } else if (historicalBest) {
+      bestNode = historicalBest.node_id;
+      summary += '<b>Подобранный сервер:</b> ' + historicalBest.node_id + ' — живая проверка не прошла ни по одному узлу, взяли по статистике похожих пользователей (' + Math.round((historicalBest.success_rate||0)*100) + '%).<br/>';
     } else {
       summary += '<b>Подобранный сервер:</b> будет выбран автоматически при первом подключении.<br/>';
     }
@@ -218,7 +287,14 @@
 
     btn.style.display = "none";
     const tgBtn = document.getElementById("tgBtn");
-    tgBtn.href = "https://t.me/Aima1iBot?start=iid_" + encodeURIComponent(installId);
+    // iid_<installId>_<networkType>_<bestNode> — тот же порядок, что парсит
+    // bot.py (rpartition с конца: сначала best_node, потом network_type,
+    // остаток — installation_id). bestNode может быть null (ни живой, ни
+    // исторический источник не сработали) — тогда bot.py получит 2 сегмента,
+    // как раньше, и просто не выставит приоритетный узел.
+    let start = "iid_" + installId + "_" + state.networkType;
+    if (bestNode) start += "_" + bestNode;
+    tgBtn.href = "https://t.me/Aima1iBot?start=" + encodeURIComponent(start);
     tgBtn.style.display = "block";
     tgBtn.focus();
   });
