@@ -8,32 +8,34 @@
   :root { --bg:#07070a; --card:#0f0f14; --border:#ffffff10; --accent:#c4b5fd; --muted:#a1a1aa; --ok:#4ade80; --bad:#f87171; }
   *{box-sizing:border-box;}
   html,body{margin:0;background:var(--bg);color:#ececef;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,system-ui,sans-serif;}
-  body{min-height:100dvh;display:flex;flex-direction:column;align-items:center;padding:24px 16px 40px;}
-  .wrap{width:100%;max-width:480px;}
-  .logo{display:flex;align-items:center;gap:10px;margin-bottom:22px;}
-  .logo .mark{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#8b5cf6,#c084fc);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;}
-  .logo b{font-size:15px;letter-spacing:.02em;}
-  .logo span{display:block;font-size:11px;color:var(--muted);}
-  h1{font-size:22px;line-height:1.3;margin:6px 0 10px;}
-  p.lead{color:var(--muted);font-size:14px;line-height:1.55;margin:0 0 22px;}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;}
-  .card h2{font-size:12px;text-transform:uppercase;letter-spacing:.18em;color:var(--muted);margin:0 0 12px;font-weight:600;}
-  .row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px;}
+  body{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 16px 40px;}
+  .wrap{width:100%;max-width:420px;text-align:center;}
+  .logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:28px;}
+  .logo .mark{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#8b5cf6,#c084fc);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:18px;}
+  .logo b{font-size:16px;letter-spacing:.02em;}
+  .logo span{display:block;font-size:11px;color:var(--muted);text-align:left;}
+  h1{font-size:24px;line-height:1.3;margin:0 0 10px;}
+  p.lead{color:var(--muted);font-size:14px;line-height:1.55;margin:0 0 30px;}
+  .btn{display:block;width:100%;text-align:center;padding:18px;border-radius:16px;border:none;font-weight:700;font-size:17px;cursor:pointer;text-decoration:none;color:#fff;background:linear-gradient(135deg,#8b5cf6,#c084fc);box-shadow:0 8px 30px -8px rgba(139,92,246,.5);}
+  .btn:disabled{opacity:.6;cursor:default;box-shadow:none;}
+  .btn.secondary{background:#18181c;border:1px solid var(--border);color:#ececef;box-shadow:none;}
+  .spinner{display:inline-block;width:16px;height:16px;border-radius:50%;border:2.5px solid #ffffff40;border-top-color:#fff;animation:spin .8s linear infinite;vertical-align:-3px;margin-right:8px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  #resultBox{margin:22px 0;padding:16px;border-radius:14px;background:var(--card);border:1px solid var(--border);text-align:left;font-size:13px;line-height:1.6;display:none;}
+  #resultBox b{color:var(--accent);}
+  #resultBox .ok{color:var(--ok);font-weight:700;}
+  details{margin-top:26px;text-align:left;}
+  summary{cursor:pointer;color:var(--muted);font-size:12px;text-align:center;list-style:none;}
+  summary::-webkit-details-marker{display:none;}
+  summary:hover{color:var(--accent);}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:12px;}
+  .card h2{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);margin:0 0 10px;font-weight:600;}
+  .row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;}
   .row:last-child{border-bottom:none;}
   .row .v{font-weight:700;font-variant-numeric:tabular-nums;}
-  .ok{color:var(--ok);} .bad{color:var(--bad);} .muted{color:var(--muted);}
-  .note{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.5;}
-  .btn{display:block;width:100%;text-align:center;padding:15px;border-radius:13px;border:none;font-weight:700;font-size:15px;cursor:pointer;text-decoration:none;color:#fff;background:linear-gradient(135deg,#8b5cf6,#c084fc);margin-top:4px;}
-  .btn.secondary{background:#18181c;border:1px solid var(--border);color:#ececef;}
-  .btn:disabled{opacity:.45;cursor:default;}
-  .spinner{display:inline-block;width:13px;height:13px;border-radius:50%;border:2px solid #ffffff30;border-top-color:#fff;animation:spin .8s linear infinite;vertical-align:-2px;margin-right:6px;}
-  @keyframes spin{to{transform:rotate(360deg);}}
-  .badge{font-size:10px;padding:2px 8px;border-radius:999px;font-weight:700;}
-  .badge.live{background:rgba(74,222,128,.15);color:var(--ok);}
-  .badge.fallback{background:rgba(248,113,113,.15);color:var(--bad);}
-  .consent{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:10px;}
-  a.link{color:var(--accent);}
-  footer{margin-top:20px;font-size:11px;color:#54545c;text-align:center;line-height:1.6;}
+  .valok{color:var(--ok);} .valbad{color:var(--bad);} .muted{color:var(--muted);}
+  .note{font-size:10px;color:var(--muted);margin-top:8px;line-height:1.5;}
+  footer{margin-top:22px;font-size:10px;color:#54545c;line-height:1.6;}
 </style>
 </head>
 <body>
@@ -43,36 +45,43 @@
     <div><b>XSERVIS</b><span>VLESS Reality tunnel</span></div>
   </div>
 
-  <h1>Проверяем доступность прямо сейчас</h1>
-  <p class="lead">Эта страница — независимая точка входа. Она сама не привязана к основному домену: если xservis.app заблокируют, эта страница продолжит работать и подскажет рабочий путь.</p>
+  <h1>Один клик — рабочий VPN</h1>
+  <p class="lead">Проверим вашу сеть прямо сейчас и подберём то, что точно работает именно у вас. Эта страница не привязана к основному домену — если xservis.app заблокируют, она продолжит работать.</p>
 
-  <div class="card">
-    <h2>Доступность сети <span id="reachBadge" class="badge"></span></h2>
-    <div class="row"><span>xservis.app напрямую</span><span class="v" id="rXservis">…</span></div>
-    <div class="row"><span>Общий интернет (контрольная точка)</span><span class="v" id="rBaseline">…</span></div>
-    <p class="note" id="reachNote">Проверяем реальные тайминги подключения из вашего браузера — не догадка, не готовый ответ, честное «сейчас работает / не работает».</p>
-  </div>
+  <button class="btn" id="connectBtn">🔌 Подключиться</button>
 
-  <div class="card">
-    <h2>SNI-инфраструктура <span id="rknBadge" class="badge"></span></h2>
-    <div class="row"><span>Живых SNI сейчас</span><span class="v" id="rknAlive">…</span></div>
-    <div class="row"><span>Всего в пуле</span><span class="v" id="rknTotal">…</span></div>
-    <div class="row"><span>Серверов</span><span class="v" id="rknNodes">…</span></div>
-    <p class="note" id="rknNote"></p>
-  </div>
+  <div id="resultBox"></div>
 
-  <div class="card">
-    <h2>Рекомендуемый узел <span id="recBadge" class="badge"></span></h2>
-    <div id="recBody"><div class="row"><span class="muted">Загрузка…</span></div></div>
-    <p class="note" id="recNote"></p>
-  </div>
+  <a class="btn" id="tgBtn" href="https://t.me/Aima1iBot" style="display:none;margin-top:12px;">Продолжить в Telegram →</a>
 
-  <a class="btn" id="tgBtn" href="https://t.me/Aima1iBot" target="_blank" rel="noopener">Продолжить в Telegram →</a>
+  <details id="techDetails">
+    <summary>Технические детали ▾</summary>
 
-  <p class="note" id="consentNote" style="text-align:center;margin-top:10px;">Анонимная статистика (тип сети, успех/неуспех подключений — без сырого IP и координат) отправляется автоматически, чтобы рекомендация узла была честной, а не общей.</p>
+    <div class="card">
+      <h2>Доступность сети <span id="reachBadge"></span></h2>
+      <div class="row"><span>xservis.app напрямую</span><span class="v" id="rXservis">…</span></div>
+      <div class="row"><span>Общий интернет (контрольная точка)</span><span class="v" id="rBaseline">…</span></div>
+      <p class="note" id="reachNote">Реальные тайминги подключения из вашего браузера — честное «сейчас работает / не работает», без выдуманного «метода блокировки», который из браузера достоверно не определить.</p>
+    </div>
+
+    <div class="card">
+      <h2>SNI-инфраструктура</h2>
+      <div class="row"><span>Живых SNI сейчас</span><span class="v" id="rknAlive">…</span></div>
+      <div class="row"><span>Всего в пуле</span><span class="v" id="rknTotal">…</span></div>
+      <div class="row"><span>Серверов</span><span class="v" id="rknNodes">…</span></div>
+      <p class="note" id="rknNote"></p>
+    </div>
+
+    <div class="card">
+      <h2>Рекомендуемый узел</h2>
+      <div id="recBody"><div class="row"><span class="muted">Загрузка…</span></div></div>
+      <p class="note" id="recNote"></p>
+    </div>
+  </details>
 
   <footer>
-    installation_id: <span id="iidShow" style="font-family:monospace"></span>
+    installation_id: <span id="iidShow" style="font-family:monospace"></span><br/>
+    Анонимная статистика (тип сети, успех подключений — без сырого IP и координат) уходит автоматически, чтобы рекомендация была честной, а не общей.
   </footer>
 </div>
 
@@ -89,55 +98,9 @@
   let installId = localStorage.getItem(IID_KEY);
   if (!installId) { installId = uuid(); localStorage.setItem(IID_KEY, installId); }
   document.getElementById("iidShow").textContent = installId;
-  document.getElementById("tgBtn").href = "https://t.me/Aima1iBot?start=iid_" + encodeURIComponent(installId);
 
-  // ---- Реальная проверка доступности: разница между "интернет работает вообще"
-  // и "конкретно xservis.app работает у меня прямо сейчас" — честный сигнал
-  // о точечной блокировке, без придумывания метода блокировки (DPI/SNI и т.п.
-  // из браузера достоверно не определить, это не выдаём).
-  async function timeFetch(url, opts) {
-    const t0 = performance.now();
-    try {
-      await fetch(url, Object.assign({ cache: "no-store", mode: "no-cors" }, opts || {}));
-      return { ok: true, ms: Math.round(performance.now() - t0) };
-    } catch (e) {
-      return { ok: false, ms: null };
-    }
-  }
-
-  async function runReachability() {
-    const [xs, baseline] = await Promise.all([
-      timeFetch("https://xservis.app/api/health?_=" + Date.now()),
-      timeFetch("https://www.gstatic.com/generate_204?_=" + Date.now()),
-    ]);
-    const elXs = document.getElementById("rXservis");
-    const elBase = document.getElementById("rBaseline");
-    elXs.textContent = xs.ok ? xs.ms + " мс" : "недоступен";
-    elXs.className = "v " + (xs.ok ? "ok" : "bad");
-    elBase.textContent = baseline.ok ? baseline.ms + " мс" : "недоступен";
-    elBase.className = "v " + (baseline.ok ? "ok" : "bad");
-
-    const badge = document.getElementById("reachBadge");
-    const note = document.getElementById("reachNote");
-    if (xs.ok) {
-      badge.textContent = "доступен"; badge.className = "badge live";
-      note.textContent = "xservis.app отвечает напрямую с вашей сети — блокировка не обнаружена.";
-    } else if (baseline.ok) {
-      badge.textContent = "заблокирован?"; badge.className = "badge fallback";
-      note.textContent = "Интернет в целом работает, а именно xservis.app — нет. Похоже на точечную блокировку. Продолжайте через эту страницу и Telegram-бота — они на других маршрутах.";
-    } else {
-      badge.textContent = "нет сети"; badge.className = "badge fallback";
-      note.textContent = "Не удалось проверить ни один адрес — возможно, нет соединения вообще, либо оба заблокированы. Попробуйте другую сеть (мобильный интернет вместо Wi-Fi или наоборот).";
-    }
-  }
-
-  // ---- Прямые вызовы к control-plane — без serverless-прокси. Раньше был нужен
-  // прокси из-за CORS (control-plane не отдавал Access-Control-Allow-Origin) —
-  // теперь эти 3 публичных пути отдают его сами, прокси убран как лишняя точка
-  // отказа (эта страница теперь чистая статика, без зависимости от Vercel/любого
-  // конкретного serverless-провайдера — можно захостить где угодно).
   const CONTROL_BASE = "https://xservis.app/control";
-  async function proxy(path, opts) {
+  async function api(path, opts) {
     try {
       const url = CONTROL_BASE + "/" + path + (opts && opts.qs ? "?" + opts.qs : "");
       const r = await fetch(url, {
@@ -150,22 +113,14 @@
     } catch (e) { return null; }
   }
 
-  async function loadRkn() {
-    const d = await proxy("rkn/status");
-    const badge = document.getElementById("rknBadge");
-    if (!d) {
-      document.getElementById("rknAlive").textContent = "—";
-      document.getElementById("rknTotal").textContent = "—";
-      document.getElementById("rknNodes").textContent = "—";
-      badge.textContent = "офлайн-резерв"; badge.className = "badge fallback";
-      document.getElementById("rknNote").textContent = "Backend недоступен даже через прокси. Последняя известная конфигурация: 3 сервера (RU / зарубеж ×2), протокол VLESS+Reality. Актуальные цифры появятся в приложении после входа.";
-      return;
+  async function timeFetch(url, opts) {
+    const t0 = performance.now();
+    try {
+      await fetch(url, Object.assign({ cache: "no-store", mode: "no-cors" }, opts || {}));
+      return { ok: true, ms: Math.round(performance.now() - t0) };
+    } catch (e) {
+      return { ok: false, ms: null };
     }
-    document.getElementById("rknAlive").textContent = d.alive;
-    document.getElementById("rknTotal").textContent = d.pool_total;
-    document.getElementById("rknNodes").textContent = d.nodes;
-    badge.textContent = "живые данные"; badge.className = "badge live";
-    document.getElementById("rknNote").textContent = d.note || "";
   }
 
   function guessNetworkType() {
@@ -178,49 +133,95 @@
     return "unknown";
   }
 
-  async function loadRecommend() {
-    const networkType = guessNetworkType();
-    const d = await proxy("telemetry/recommend", { qs: "network_type=" + networkType + "&limit=3" });
-    const body = document.getElementById("recBody");
-    const badge = document.getElementById("recBadge");
-    const note = document.getElementById("recNote");
+  // ---- Всё честно считается в фоне СРАЗУ при заходе на страницу (не ждём клика) —
+  // так "Подключиться" ощущается мгновенным, хотя ничего не подделано: реальные
+  // fetch-запросы просто успевают отработать, пока человек читает заголовок.
+  const state = { reach: null, rkn: null, recommend: null, networkType: guessNetworkType() };
+
+  const reachPromise = (async () => {
+    const [xs, baseline] = await Promise.all([
+      timeFetch("https://xservis.app/api/health?_=" + Date.now()),
+      timeFetch("https://www.gstatic.com/generate_204?_=" + Date.now()),
+    ]);
+    state.reach = { xs, baseline };
+    const elXs = document.getElementById("rXservis");
+    const elBase = document.getElementById("rBaseline");
+    elXs.textContent = xs.ok ? xs.ms + " мс" : "недоступен";
+    elXs.className = "v " + (xs.ok ? "valok" : "valbad");
+    elBase.textContent = baseline.ok ? baseline.ms + " мс" : "недоступен";
+    elBase.className = "v " + (baseline.ok ? "valok" : "valbad");
+    const badge = document.getElementById("reachBadge");
+    const note = document.getElementById("reachNote");
+    if (xs.ok) { badge.textContent = "✓ доступен"; note.textContent = "xservis.app отвечает напрямую — блокировка не обнаружена."; }
+    else if (baseline.ok) { badge.textContent = "⚠ возможна блокировка"; note.textContent = "Интернет работает, а именно xservis.app — нет. Похоже на точечную блокировку."; }
+    else { badge.textContent = "⚠ нет сети"; note.textContent = "Не удалось проверить ни один адрес."; }
+  })();
+
+  const rknPromise = (async () => {
+    const d = await api("rkn/status");
+    state.rkn = d;
     if (!d) {
-      body.innerHTML = '<div class="row"><span>ru-1 (Россия)</span><span class="v muted">резерв</span></div><div class="row"><span>foreign-1</span><span class="v muted">резерв</span></div>';
-      badge.textContent = "офлайн-резерв"; badge.className = "badge fallback";
-      note.textContent = "Backend недоступен через прокси — показан статический список серверов без ранжирования по реальным данным.";
+      document.getElementById("rknNote").textContent = "Backend недоступен — резервные данные покажем при первом успешном запросе.";
       return;
     }
-    if (!d.recommendations || d.recommendations.length === 0) {
-      body.innerHTML = '<div class="row"><span class="muted">Пока недостаточно данных для персональной рекомендации (' + (d.samples_considered || 0) + ' наблюдений).</span></div>';
-      badge.textContent = "мало данных"; badge.className = "badge fallback";
-      note.textContent = "Рекомендация появится, когда наберётся статистика реальных подключений в вашем типе сети. В приложении сервер подбирается автоматически.";
+    document.getElementById("rknAlive").textContent = d.alive;
+    document.getElementById("rknTotal").textContent = d.pool_total;
+    document.getElementById("rknNodes").textContent = d.nodes;
+    document.getElementById("rknNote").textContent = d.note || "";
+  })();
+
+  const recommendPromise = (async () => {
+    const d = await api("telemetry/recommend", { qs: "network_type=" + state.networkType + "&limit=3" });
+    state.recommend = d;
+    const body = document.getElementById("recBody");
+    const note = document.getElementById("recNote");
+    if (!d || !d.recommendations || d.recommendations.length === 0) {
+      body.innerHTML = '<div class="row"><span class="muted">Пока недостаточно данных для персональной рекомендации.</span></div>';
+      note.textContent = "В приложении сервер всё равно подбирается автоматически.";
       return;
     }
     body.innerHTML = d.recommendations.map((r, i) =>
-      '<div class="row"><span>' + (i + 1) + '. ' + (r.node_id || "?") + '</span><span class="v ok">' + (r.success_rate != null ? Math.round(r.success_rate * 100) + "%" : "") + '</span></div>'
+      '<div class="row"><span>' + (i + 1) + '. ' + (r.node_id || "?") + '</span><span class="v valok">' + (r.success_rate != null ? Math.round(r.success_rate * 100) + "%" : "") + '</span></div>'
     ).join("");
-    badge.textContent = "живые данные (" + (d.samples_considered || 0) + " набл.)"; badge.className = "badge live";
     note.textContent = "Ранжировано по реальной статистике успешных подключений похожих пользователей (" + d.scope.network_type + "), без сырых IP и точных координат.";
-  }
+  })();
 
-  async function sendConsentSilently() {
-    // Одна кнопка на странице — "Продолжить в Telegram". Согласие на анонимную
-    // телеметрию отправляется сама собой при заходе, без отдельного клика:
-    // ничего личного не собирает (см. текст под кнопкой), а /telemetry/recommend
-    // ниже и так не требует согласия для чтения агрегатной статистики — это
-    // просто честно фиксирует намерение на будущее, когда появится реальный
-    // клиент, который будет слать /telemetry/report.
-    const d = await proxy("consent", { method: "POST", body: { installation_id: installId, accepted: true } });
-    const note = document.getElementById("consentNote");
-    if (!d || !d.stored) {
-      note.textContent = "Backend недоступен — статистика пока не отправлена, попробуйте позже.";
+  api("consent", { method: "POST", body: { installation_id: installId, accepted: true } });
+
+  // ---- Клик "Подключиться" ----
+  document.getElementById("connectBtn").addEventListener("click", async function () {
+    const btn = this;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Проверяем вашу сеть…';
+
+    await Promise.all([reachPromise, rknPromise, recommendPromise]);
+
+    const best = state.recommend && state.recommend.recommendations && state.recommend.recommendations[0];
+    const reachOk = state.reach && state.reach.xs && state.reach.xs.ok;
+
+    let summary = "";
+    if (reachOk) {
+      summary += '<b>Сеть:</b> <span class="ok">доступна напрямую</span>, блокировки не обнаружено.<br/>';
+    } else {
+      summary += '<b>Сеть:</b> похоже на точечную блокировку xservis.app — это не проблема, для этого и нужен обходной путь ниже.<br/>';
     }
-  }
+    if (best) {
+      summary += '<b>Подобранный сервер:</b> ' + best.node_id + ' (' + Math.round((best.success_rate||0)*100) + '% успешных подключений у похожих пользователей).<br/>';
+    } else {
+      summary += '<b>Подобранный сервер:</b> будет выбран автоматически при первом подключении.<br/>';
+    }
+    summary += '<span class="muted">Тип сети определён как: ' + state.networkType + '.</span>';
 
-  runReachability();
-  loadRkn();
-  loadRecommend();
-  sendConsentSilently();
+    const box = document.getElementById("resultBox");
+    box.innerHTML = summary;
+    box.style.display = "block";
+
+    btn.style.display = "none";
+    const tgBtn = document.getElementById("tgBtn");
+    tgBtn.href = "https://t.me/Aima1iBot?start=iid_" + encodeURIComponent(installId);
+    tgBtn.style.display = "block";
+    tgBtn.focus();
+  });
 })();
 </script>
 </body>
